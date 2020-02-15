@@ -17,4 +17,9 @@ public class FibonacciCalculatorTest {
     public void should_return_1_when_calculate_given_position_is_2() {
         assertEquals(1, fibonacciCalculator.getFibonacciByPosition(2));
     }
+
+    @Test
+    public void should_return_2_when_calculate_given_position_is_3() {
+        assertEquals(2,fibonacciCalculator.getFibonacciByPosition(3));
+    }
 }
