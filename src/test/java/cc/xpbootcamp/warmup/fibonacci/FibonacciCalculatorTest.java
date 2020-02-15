@@ -52,4 +52,11 @@ public class FibonacciCalculatorTest {
             fibonacciCalculator.getFibonacciByPosition(-1);
         });
     }
+
+    @Test
+    public void should_throw_when_calculate_given_position_is_greater_than_50() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            fibonacciCalculator.getFibonacciByPosition(51);
+        });
+    }
 }
