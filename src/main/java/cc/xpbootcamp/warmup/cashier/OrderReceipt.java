@@ -30,12 +30,17 @@ public class OrderReceipt {
             totalSalesTax.updateAndGet(v -> v + salesTax);
             totalAmount.updateAndGet(v -> v + lineItem.totalAmount() + salesTax);
         });
-        // prints the state tax
-        output.append("Sales Tax").append('\t').append(totalSalesTax.get());
-
-        // print total amount
-        output.append("Total Amount").append('\t').append(totalAmount.get());
+        PrintsTheStateTax(output, totalSalesTax);
+        PrintTotalAmount(output, totalAmount);
         return output.toString();
+    }
+
+    private void PrintTotalAmount(StringBuilder output, AtomicReference<Double> totalAmount) {
+        output.append("Total Amount").append('\t').append(totalAmount.get());
+    }
+
+    private void PrintsTheStateTax(StringBuilder output, AtomicReference<Double> totalSalesTax) {
+        output.append("Sales Tax").append('\t').append(totalSalesTax.get());
     }
 
     private void printReceiptBody(StringBuilder output, LineItem lineItem) {
