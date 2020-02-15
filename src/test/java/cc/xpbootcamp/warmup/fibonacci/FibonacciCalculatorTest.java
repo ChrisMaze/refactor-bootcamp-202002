@@ -32,4 +32,9 @@ public class FibonacciCalculatorTest {
     public void should_return_5_when_calculate_given_position_is_5() {
         assertEquals(5,fibonacciCalculator.getFibonacciByPosition(5));
     }
+
+    @Test
+    public void should_return_12586269025L_when_calculate_given_position_is_50() {
+        assertEquals(12586269025L,fibonacciCalculator.getFibonacciByPosition(50));
+    }
 }
