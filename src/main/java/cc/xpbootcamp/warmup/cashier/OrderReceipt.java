@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
  *
  */
 public class OrderReceipt {
+    public static final double taxRate = .10;
     private Order order;
 
     public OrderReceipt(Order order) {
@@ -21,15 +22,12 @@ public class OrderReceipt {
 
         PrintReceiptHeaders(output);
 
-        // prints lineItems
         AtomicReference<Double> totalSalesTax = new AtomicReference<>(0d);
         AtomicReference<Double> totalAmount = new AtomicReference<>(0d);
         order.getLineItems().forEach(lineItem -> {
             printReceiptBody(output, lineItem);
-            // calculate sales tax @ rate of 10%
-            double salesTax = lineItem.totalAmount() * .10;
+            double salesTax = lineItem.totalAmount() * taxRate;
             totalSalesTax.updateAndGet(v -> v + salesTax);
-            // calculate total amount of lineItem = price * quantity + 10 % sales tax
             totalAmount.updateAndGet(v -> v + lineItem.totalAmount() + salesTax);
         });
         // prints the state tax
