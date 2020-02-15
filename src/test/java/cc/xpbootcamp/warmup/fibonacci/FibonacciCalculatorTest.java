@@ -45,4 +45,11 @@ public class FibonacciCalculatorTest {
             fibonacciCalculator.getFibonacciByPosition(0);
         });
     }
+
+    @Test
+    public void should_throw_when_calculate_given_position_is_less_than_0() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            fibonacciCalculator.getFibonacciByPosition(-1);
+        });
+    }
 }

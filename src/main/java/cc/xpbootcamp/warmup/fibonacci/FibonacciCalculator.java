@@ -2,7 +2,7 @@ package cc.xpbootcamp.warmup.fibonacci;
 
 public class FibonacciCalculator {
     public long getFibonacciByPosition(int position) {
-        if (position == 0)
+        if (position <= 0)
             throw new IllegalArgumentException();
         if (position == 1 || position == 2)
             return 1;
