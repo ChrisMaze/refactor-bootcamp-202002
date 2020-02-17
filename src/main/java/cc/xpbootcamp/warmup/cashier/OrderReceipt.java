@@ -18,7 +18,7 @@ public class OrderReceipt {
         this.order = order;
     }
 
-    public String printReceipt() {
+    public String printReceiptOld() {
         StringBuilder output = new StringBuilder();
 
         PrintReceiptHeaders(output);
@@ -59,5 +59,23 @@ public class OrderReceipt {
         output.append("======Printing Orders======\n");
         output.append(order.getCustomerName());
         output.append(order.getCustomerAddress());
+    }
+
+    public String printReceipt() {
+        StringBuilder output = new StringBuilder();
+
+        PrintReceiptHeaders(output);
+
+        AtomicReference<Double> totalSalesTax = new AtomicReference<>(0d);
+        AtomicReference<Double> totalAmount = new AtomicReference<>(0d);
+        order.getLineItems().forEach(lineItem -> {
+            printReceiptBody(output, lineItem);
+            double salesTax = lineItem.totalAmount() * taxRate;
+            totalSalesTax.updateAndGet(v -> v + salesTax);
+            totalAmount.updateAndGet(v -> v + lineItem.totalAmount() + salesTax);
+        });
+        PrintsTheStateTax(output, totalSalesTax);
+        PrintTotalAmount(output, totalAmount);
+        return output.toString();
     }
 }

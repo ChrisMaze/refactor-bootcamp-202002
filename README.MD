@@ -55,6 +55,43 @@ TW工程师接收后，却发现代码存在神一般的命名和谜一般的逻
 5. 不要修改测试代码
 6. 尽自己所能，尽可能多的找出坏味道，并重构掉
 
+#### 新的需求：
+老王收到顾客反馈，希望对订单的收据进行改良，因为原始收据太难以辨识了。
+于是老王调研了大超市的收据单，希望将收据改为新的格式进行显示。
+此外，为答谢顾客，每逢周三，所有商品98折销售。
+
+> TASKING
+>
+> 1. given a order, when I print receipt, then receipt should have a head  like this
+>
+>    >  ===== 老王超市，值得信赖 ====== 
+>
+> 2. given a order with a date. when I print receipt, then receipt should print this date,like this
+>
+>    > 2020年2月17日，星期一
+>
+> 3. given a order with  line items. when I print receipt, then receipt should print the product details, like this
+>
+>    > 巧克力, 21.50 x 2, 43.00
+>    >
+>    > 小白菜, 10.00 x 1, 10.00
+>
+> 4. given a order with line items and date. when I print receipt, then receipt should print the sales tax and total amount, like this
+>
+>    > 税额:   5.30
+>    >
+>    > 总价:   58.30
+>
+> 5. given a order with line items and date on wednesday. when I print receipt, then receipt should print discount, like this
+>
+>    > 折扣：1.17
+
+
+
+
+
+
+
 
 ## 补充
 每个小伙伴将该项目fork自己的GitHub账号下
