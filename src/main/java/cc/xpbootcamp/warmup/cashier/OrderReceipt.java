@@ -9,9 +9,8 @@ import java.text.DecimalFormat;
  * total sales tax) and prints it.
  */
 public class OrderReceipt {
-    public static final String receiptHeader = "===== 老王超市，值得信赖 ======";
+
     public static final double taxRate = 0.10;
-    public static final char newLine = '\n';
     public static final double discountRate = 0.02;
 
     private double totalSalesTax = 0d;
@@ -23,69 +22,32 @@ public class OrderReceipt {
         this.order = order;
     }
 
-    DecimalFormat doubleFormatter = new DecimalFormat("#.00");
+    public Order getOrder() { return order; }
 
-    public String printReceipt() {
-        StringBuilder output = new StringBuilder();
+    public double getTotalSalesTax() { return totalSalesTax; }
 
-        printReceiptHeaders(output);
-        printOrderDate(output);
+    public double getTotalAmount() { return totalAmount; }
+
+    public double getTotalDiscount() { return totalDiscount; }
+
+    public void calculate() {
+        calculateTotalAmount();
+        calculateDiscount();
+    }
+
+    private void calculateTotalAmount() {
         order.getLineItems().forEach(lineItem -> {
-            printProductDetails(output, lineItem);
-            calculateTotalAmount(lineItem.totalAmount());
+            double amount = lineItem.totalAmount();
+            double salesTax = amount * taxRate;
+            this.totalSalesTax += salesTax;
+            this.totalAmount += amount + salesTax;
         });
-        printReceiptTails(output);
-
-        return output.toString();
     }
 
-    private void printReceiptHeaders(StringBuilder output) {
-        output.append(receiptHeader).append(newLine).append(newLine)
-                .append(order.getCustomerName())
-                .append(order.getCustomerAddress());
-    }
-
-    private void printOrderDate(StringBuilder output) {
-        output.append(order.getDate()).append(newLine).append(newLine);
-    }
-
-    private void printProductDetails(StringBuilder output, LineItem lineItem) {
-        output.append(lineItem.getDescription()).append('，')
-                .append(doubleFormatter.format(lineItem.getPrice())).append(" x ")
-                .append(lineItem.getQuantity()).append('，')
-                .append(doubleFormatter.format(lineItem.totalAmount())).append(newLine);
-    }
-
-    private void calculateTotalAmount(double amount) {
-        double salesTax = amount * taxRate;
-        this.totalSalesTax += salesTax;
-        this.totalAmount += amount + salesTax;
-    }
-
-    private void printReceiptTails(StringBuilder output) {
-        output.append("----------------------------").append(newLine);
-        printsTheStateTax(output);
-        printDiscount(output);
-        printTotalAmount(output);
-    }
-
-    private void printDiscount(StringBuilder output) {
+    private void calculateDiscount() {
         if (order.getDate().contains("星期三")) {
-            setTotalDiscount();
-            output.append("折扣：").append(doubleFormatter.format(this.totalDiscount)).append(newLine);
+            this.totalDiscount = totalAmount * discountRate;
+            this.totalAmount -= this.totalDiscount;
         }
-    }
-
-    private void setTotalDiscount() {
-        this.totalDiscount = totalAmount * discountRate;
-    }
-
-    private void printsTheStateTax(StringBuilder output) {
-        output.append("税额：").append(doubleFormatter.format(totalSalesTax)).append(newLine);
-    }
-
-    private void printTotalAmount(StringBuilder output) {
-        totalAmount -= totalDiscount;
-        output.append("总价：").append(doubleFormatter.format(totalAmount)).append(newLine);
     }
 }
