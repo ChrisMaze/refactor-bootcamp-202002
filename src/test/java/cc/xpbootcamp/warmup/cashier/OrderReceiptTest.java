@@ -51,4 +51,17 @@ class OrderReceiptTest {
 
         assertThat(output, containsString("===== 老王超市，值得信赖 ======\n\n"));
     }
+
+    @Test
+    public void should_print_date_information() {
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("巧克力", 21.50, 2));
+            add(new LineItem("小白菜", 10.00, 1));
+        }};
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, "2020年2月17日，星期一"));
+
+        String output = receipt.printReceipt();
+
+        assertThat(output, containsString("2020年2月17日，星期一\n\n"));
+    }
 }

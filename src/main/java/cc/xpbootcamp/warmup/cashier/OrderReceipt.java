@@ -21,67 +21,68 @@ public class OrderReceipt {
     public String printReceiptOld() {
         StringBuilder output = new StringBuilder();
 
-        PrintReceiptHeadersOld(output);
+        printReceiptHeadersOld(output);
 
         AtomicReference<Double> totalSalesTax = new AtomicReference<>(0d);
         AtomicReference<Double> totalAmount = new AtomicReference<>(0d);
         order.getLineItems().forEach(lineItem -> {
-            printReceiptBody(output, lineItem);
+            printProductDetails(output, lineItem);
             double salesTax = lineItem.totalAmount() * taxRate;
             totalSalesTax.updateAndGet(v -> v + salesTax);
             totalAmount.updateAndGet(v -> v + lineItem.totalAmount() + salesTax);
         });
-        PrintsTheStateTax(output, totalSalesTax);
-        PrintTotalAmount(output, totalAmount);
+        printsTheStateTax(output, totalSalesTax);
+        printTotalAmount(output, totalAmount);
         return output.toString();
     }
 
-    private void PrintTotalAmount(StringBuilder output, AtomicReference<Double> totalAmount) {
+    private void printTotalAmount(StringBuilder output, AtomicReference<Double> totalAmount) {
         output.append("Total Amount").append(tabs).append(totalAmount.get());
     }
 
-    private void PrintsTheStateTax(StringBuilder output, AtomicReference<Double> totalSalesTax) {
+    private void printsTheStateTax(StringBuilder output, AtomicReference<Double> totalSalesTax) {
         output.append("Sales Tax").append(tabs).append(totalSalesTax.get());
     }
 
-    private void printReceiptBody(StringBuilder output, LineItem lineItem) {
-        output.append(lineItem.getDescription());
-        output.append(tabs);
-        output.append(lineItem.getPrice());
-        output.append(tabs);
-        output.append(lineItem.getQuantity());
-        output.append(tabs);
-        output.append(lineItem.totalAmount());
-        output.append(newLine);
+    private void printProductDetails(StringBuilder output, LineItem lineItem) {
+        output.append(lineItem.getDescription()).append(tabs)
+                .append(lineItem.getPrice()).append(tabs)
+                .append(lineItem.getQuantity()).append(tabs)
+                .append(lineItem.totalAmount()).append(newLine);
     }
 
-    private void PrintReceiptHeadersOld(StringBuilder output) {
+    private void printReceiptHeadersOld(StringBuilder output) {
         output.append("======Printing Orders======\n");
         output.append(order.getCustomerName());
         output.append(order.getCustomerAddress());
     }
 
-    private void PrintReceiptHeaders(StringBuilder output) {
-        output.append("===== 老王超市，值得信赖 ======\n\n");
-        output.append(order.getCustomerName());
-        output.append(order.getCustomerAddress());
+    private String printReceiptHeaders() {
+        return "===== 老王超市，值得信赖 ======\n\n" +
+                order.getCustomerName() +
+                order.getCustomerAddress();
+    }
+
+    private String printOrderDate() {
+        return order.getDate() + "\n\n";
     }
 
     public String printReceipt() {
         StringBuilder output = new StringBuilder();
 
-        PrintReceiptHeaders(output);
+        output.append(printReceiptHeaders())
+                .append(printOrderDate());
 
         AtomicReference<Double> totalSalesTax = new AtomicReference<>(0d);
         AtomicReference<Double> totalAmount = new AtomicReference<>(0d);
         order.getLineItems().forEach(lineItem -> {
-            printReceiptBody(output, lineItem);
+            printProductDetails(output, lineItem);
             double salesTax = lineItem.totalAmount() * taxRate;
             totalSalesTax.updateAndGet(v -> v + salesTax);
             totalAmount.updateAndGet(v -> v + lineItem.totalAmount() + salesTax);
         });
-        PrintsTheStateTax(output, totalSalesTax);
-        PrintTotalAmount(output, totalAmount);
+        printsTheStateTax(output, totalSalesTax);
+        printTotalAmount(output, totalAmount);
         return output.toString();
     }
 }

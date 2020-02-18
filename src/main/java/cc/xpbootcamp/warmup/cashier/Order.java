@@ -3,15 +3,15 @@ package cc.xpbootcamp.warmup.cashier;
 import java.util.List;
 
 public class Order {
-    String customerName;
-    String customerAddress;
-    List<LineItem> lineItemList;
-    String date;
+    private String customerName;
+    private String customerAddress;
+    private List<LineItem> lineItems;
+    private String date;
 
-    public Order(String customerName, String customerAddress, List<LineItem> lineItemList, String date) {
+    public Order(String customerName, String customerAddress, List<LineItem> lineItems, String date) {
         this.customerName = customerName;
         this.customerAddress = customerAddress;
-        this.lineItemList = lineItemList;
+        this.lineItems = lineItems;
         this.date = date;
     }
 
@@ -23,7 +23,7 @@ public class Order {
         return customerAddress;
     }
 
-    public List<LineItem> getLineItems() {
-        return lineItemList;
-    }
+    public String getDate() { return date; }
+
+    public List<LineItem> getLineItems() { return lineItems; }
 }
