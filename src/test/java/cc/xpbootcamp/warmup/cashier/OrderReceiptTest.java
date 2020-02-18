@@ -40,7 +40,7 @@ class OrderReceiptTest {
     }
 
     @Test
-    public void should_print_line_item_and_sales_tax_information_not_on_Wednesday() {
+    public void should_print_new_head_information_not_on_Wednesday() {
         List<LineItem> lineItems = new ArrayList<LineItem>() {{
             add(new LineItem("巧克力", 21.50, 2));
             add(new LineItem("小白菜", 10.00, 1));

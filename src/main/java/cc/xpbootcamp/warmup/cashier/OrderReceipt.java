@@ -21,7 +21,7 @@ public class OrderReceipt {
     public String printReceiptOld() {
         StringBuilder output = new StringBuilder();
 
-        PrintReceiptHeaders(output);
+        PrintReceiptHeadersOld(output);
 
         AtomicReference<Double> totalSalesTax = new AtomicReference<>(0d);
         AtomicReference<Double> totalAmount = new AtomicReference<>(0d);
@@ -55,8 +55,14 @@ public class OrderReceipt {
         output.append(newLine);
     }
 
-    private void PrintReceiptHeaders(StringBuilder output) {
+    private void PrintReceiptHeadersOld(StringBuilder output) {
         output.append("======Printing Orders======\n");
+        output.append(order.getCustomerName());
+        output.append(order.getCustomerAddress());
+    }
+
+    private void PrintReceiptHeaders(StringBuilder output) {
+        output.append("===== 老王超市，值得信赖 ======\n\n");
         output.append(order.getCustomerName());
         output.append(order.getCustomerAddress());
     }
