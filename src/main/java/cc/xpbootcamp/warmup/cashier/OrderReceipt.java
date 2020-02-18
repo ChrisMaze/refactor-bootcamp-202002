@@ -10,11 +10,13 @@ import java.text.DecimalFormat;
  */
 public class OrderReceipt {
     public static final String receiptHeader = "===== 老王超市，值得信赖 ======";
-    public static final double taxRate = .10;
+    public static final double taxRate = 0.10;
     public static final char newLine = '\n';
+    public static final double discountRate = 0.02;
 
     private double totalSalesTax = 0d;
     private double totalAmount = 0d;
+    private double totalDiscount = 0d;
     private Order order;
 
     public OrderReceipt(Order order) {
@@ -63,7 +65,19 @@ public class OrderReceipt {
     private void printReceiptTails(StringBuilder output) {
         output.append("----------------------------").append(newLine);
         printsTheStateTax(output);
+        printDiscount(output);
         printTotalAmount(output);
+    }
+
+    private void printDiscount(StringBuilder output) {
+        if (order.getDate().contains("星期三")) {
+            setTotalDiscount();
+            output.append("折扣：").append(doubleFormatter.format(this.totalDiscount)).append(newLine);
+        }
+    }
+
+    private void setTotalDiscount() {
+        this.totalDiscount = totalAmount * discountRate;
     }
 
     private void printsTheStateTax(StringBuilder output) {
@@ -71,6 +85,7 @@ public class OrderReceipt {
     }
 
     private void printTotalAmount(StringBuilder output) {
+        totalAmount -= totalDiscount;
         output.append("总价：").append(doubleFormatter.format(totalAmount)).append(newLine);
     }
 }
