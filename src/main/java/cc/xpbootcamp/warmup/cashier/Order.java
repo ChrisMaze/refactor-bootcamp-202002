@@ -23,7 +23,11 @@ public class Order {
         return customerAddress;
     }
 
-    public String getDate() { return date; }
+    public String getDate() {
+        return date;
+    }
 
-    public List<LineItem> getLineItems() { return lineItems; }
+    public List<LineItem> getLineItems() {
+        return lineItems;
+    }
 }

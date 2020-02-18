@@ -1,7 +1,6 @@
 package cc.xpbootcamp.warmup.cashier;
 
 import java.text.DecimalFormat;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * OrderReceipt prints the details of order including customer name, address, description, quantity,
@@ -10,40 +9,42 @@ import java.util.concurrent.atomic.AtomicReference;
  * total sales tax) and prints it.
  */
 public class OrderReceipt {
+    public static final String receiptHeader = "===== 老王超市，值得信赖 ======";
     public static final double taxRate = .10;
-    public static final char tabs = '\t';
     public static final char newLine = '\n';
+
+    private double totalSalesTax = 0d;
+    private double totalAmount = 0d;
     private Order order;
-    private Double totalSalesTax = 0d;
-    private Double totalAmount = 0d;
-    DecimalFormat doubleFormatter = new DecimalFormat("#.00");
 
     public OrderReceipt(Order order) {
         this.order = order;
     }
 
-    public String printReceiptOld() {
+    DecimalFormat doubleFormatter = new DecimalFormat("#.00");
+
+    public String printReceipt() {
         StringBuilder output = new StringBuilder();
 
-        printReceiptHeadersOld(output);
-
+        printReceiptHeaders(output);
+        printOrderDate(output);
         order.getLineItems().forEach(lineItem -> {
             printProductDetails(output, lineItem);
-            double salesTax = lineItem.totalAmount() * taxRate;
-            this.totalSalesTax += salesTax;
-            this.totalAmount += lineItem.totalAmount() + salesTax;
+            calculateTotalAmount(lineItem.totalAmount());
         });
-        printsTheStateTax(output, totalSalesTax);
-        printTotalAmount(output, totalAmount);
+        printReceiptTails(output);
+
         return output.toString();
     }
 
-    private void printTotalAmount(StringBuilder output, Double totalAmount) {
-        output.append("Total Amount").append(tabs).append(totalAmount);
+    private void printReceiptHeaders(StringBuilder output) {
+        output.append(receiptHeader).append(newLine).append(newLine)
+                .append(order.getCustomerName())
+                .append(order.getCustomerAddress());
     }
 
-    private void printsTheStateTax(StringBuilder output, Double totalSalesTax) {
-        output.append("Sales Tax").append(tabs).append(totalSalesTax);
+    private void printOrderDate(StringBuilder output) {
+        output.append(order.getDate()).append(newLine).append(newLine);
     }
 
     private void printProductDetails(StringBuilder output, LineItem lineItem) {
@@ -53,39 +54,23 @@ public class OrderReceipt {
                 .append(doubleFormatter.format(lineItem.totalAmount())).append(newLine);
     }
 
-    private void printReceiptHeadersOld(StringBuilder output) {
-        output.append("======Printing Orders======\n");
-        output.append(order.getCustomerName());
-        output.append(order.getCustomerAddress());
+    private void calculateTotalAmount(double amount) {
+        double salesTax = amount * taxRate;
+        this.totalSalesTax += salesTax;
+        this.totalAmount += amount + salesTax;
     }
 
-    private void printReceiptHeaders(StringBuilder output) {
-        output.append("===== 老王超市，值得信赖 ======\n\n")
-                .append(order.getCustomerName())
-                .append(order.getCustomerAddress());
+    private void printReceiptTails(StringBuilder output) {
+        output.append("----------------------------").append(newLine);
+        printsTheStateTax(output);
+        printTotalAmount(output);
     }
 
-    private void printOrderDate(StringBuilder output) {
-        output.append(order.getDate()).append("\n\n");
+    private void printsTheStateTax(StringBuilder output) {
+        output.append("税额：").append(doubleFormatter.format(totalSalesTax)).append(newLine);
     }
 
-    public String printReceipt() {
-        StringBuilder output = new StringBuilder();
-
-        printReceiptHeaders(output);
-
-        printOrderDate(output);
-
-        order.getLineItems().forEach(lineItem -> {
-            printProductDetails(output, lineItem);
-
-            double salesTax = lineItem.totalAmount() * taxRate;
-            this.totalSalesTax += salesTax;
-            this.totalAmount += lineItem.totalAmount() + salesTax;
-        });
-        output.append("----------------------------\n");
-        printsTheStateTax(output, this.totalSalesTax);
-        printTotalAmount(output, this.totalAmount);
-        return output.toString();
+    private void printTotalAmount(StringBuilder output) {
+        output.append("总价：").append(doubleFormatter.format(totalAmount)).append(newLine);
     }
 }
