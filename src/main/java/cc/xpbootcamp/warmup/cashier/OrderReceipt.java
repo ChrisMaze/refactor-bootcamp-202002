@@ -1,5 +1,6 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import java.text.DecimalFormat;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -15,6 +16,7 @@ public class OrderReceipt {
     private Order order;
     private Double totalSalesTax = 0d;
     private Double totalAmount = 0d;
+    DecimalFormat doubleFormatter = new DecimalFormat("#.00");
 
     public OrderReceipt(Order order) {
         this.order = order;
@@ -45,10 +47,10 @@ public class OrderReceipt {
     }
 
     private void printProductDetails(StringBuilder output, LineItem lineItem) {
-        output.append(lineItem.getDescription()).append(tabs)
-                .append(lineItem.getPrice()).append(tabs)
-                .append(lineItem.getQuantity()).append(tabs)
-                .append(lineItem.totalAmount()).append(newLine);
+        output.append(lineItem.getDescription()).append('，')
+                .append(doubleFormatter.format(lineItem.getPrice())).append(" x ")
+                .append(lineItem.getQuantity()).append('，')
+                .append(doubleFormatter.format(lineItem.totalAmount())).append(newLine);
     }
 
     private void printReceiptHeadersOld(StringBuilder output) {
@@ -76,11 +78,12 @@ public class OrderReceipt {
 
         order.getLineItems().forEach(lineItem -> {
             printProductDetails(output, lineItem);
+
             double salesTax = lineItem.totalAmount() * taxRate;
             this.totalSalesTax += salesTax;
             this.totalAmount += lineItem.totalAmount() + salesTax;
         });
-
+        output.append("----------------------------\n");
         printsTheStateTax(output, this.totalSalesTax);
         printTotalAmount(output, this.totalAmount);
         return output.toString();

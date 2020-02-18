@@ -32,9 +32,6 @@ class OrderReceiptTest {
 
         String output = receipt.printReceiptOld();
 
-        assertThat(output, containsString("milk\t10.0\t2\t20.0\n"));
-        assertThat(output, containsString("biscuits\t5.0\t5\t25.0\n"));
-        assertThat(output, containsString("chocolate\t20.0\t1\t20.0\n"));
         assertThat(output, containsString("Sales Tax\t6.5"));
         assertThat(output, containsString("Total Amount\t71.5"));
     }
@@ -65,4 +62,18 @@ class OrderReceiptTest {
         assertThat(output, containsString("2020年2月17日，星期一\n\n"));
     }
 
+    @Test
+    public void should_print_product_details_information() {
+        List<LineItem> lineItems = new ArrayList<LineItem>() {{
+            add(new LineItem("巧克力", 21.50, 2));
+            add(new LineItem("小白菜", 10.00, 1));
+        }};
+        OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, "2020年2月17日，星期一"));
+
+        String output = receipt.printReceipt();
+
+        assertThat(output, containsString("巧克力，21.50 x 2，43.00\n"));
+        assertThat(output, containsString("小白菜，10.00 x 1，10.00\n"));
+        assertThat(output, containsString("----------------------------\n"));
+    }
 }
