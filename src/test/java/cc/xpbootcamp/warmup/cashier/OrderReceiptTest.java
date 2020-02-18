@@ -64,4 +64,5 @@ class OrderReceiptTest {
 
         assertThat(output, containsString("2020年2月17日，星期一\n\n"));
     }
+
 }
