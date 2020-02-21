@@ -63,7 +63,7 @@ class OrderReceiptTest {
         String output = receipt.printReceipt();
 
         assertThat(output, containsString("税额：5.30\n"));
-        assertThat(output, containsString("总价：58.30"));
+        assertThat(output, containsString("总价：58.30\n"));
     }
 
     @Test
@@ -79,7 +79,7 @@ class OrderReceiptTest {
 
         assertThat(output, containsString("税额：5.30\n"));
         assertThat(output, containsString("折扣：1.17\n"));
-        assertThat(output, containsString("总价：57.13"));
+        assertThat(output, containsString("总价：57.13\n"));
     }
 
 }
