@@ -13,11 +13,11 @@ import static org.hamcrest.Matchers.containsString;
 class OrderReceiptTest {
     @Test
     public void should_print_new_head_information_not_on_Wednesday() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("巧克力", 21.50, 2));
-            add(new LineItem("小白菜", 10.00, 1));
+        List<Commodity> commodities = new ArrayList<Commodity>() {{
+            add(new Commodity("巧克力", 21.50, 2));
+            add(new Commodity("小白菜", 10.00, 1));
         }};
-        OrderReceipt receipt = new OrderReceipt(new Order( lineItems, LocalDate.now()));
+        OrderReceipt receipt = new OrderReceipt(new Order( commodities, LocalDate.now()));
 
         String output = receipt.printReceipt();
 
@@ -26,11 +26,11 @@ class OrderReceiptTest {
 
     @Test
     public void should_print_date_information() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("巧克力", 21.50, 2));
-            add(new LineItem("小白菜", 10.00, 1));
+        List<Commodity> commodities = new ArrayList<Commodity>() {{
+            add(new Commodity("巧克力", 21.50, 2));
+            add(new Commodity("小白菜", 10.00, 1));
         }};
-        OrderReceipt receipt = new OrderReceipt(new Order(lineItems, LocalDate.of(2020,2,17)));
+        OrderReceipt receipt = new OrderReceipt(new Order(commodities, LocalDate.of(2020,2,17)));
 
         String output = receipt.printReceipt();
 
@@ -39,11 +39,11 @@ class OrderReceiptTest {
 
     @Test
     public void should_print_product_details_information() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("巧克力", 21.50, 2));
-            add(new LineItem("小白菜", 10.00, 1));
+        List<Commodity> commodities = new ArrayList<Commodity>() {{
+            add(new Commodity("巧克力", 21.50, 2));
+            add(new Commodity("小白菜", 10.00, 1));
         }};
-        OrderReceipt receipt = new OrderReceipt(new Order( lineItems, LocalDate.now()));
+        OrderReceipt receipt = new OrderReceipt(new Order( commodities, LocalDate.now()));
 
         String output = receipt.printReceipt();
 
@@ -54,11 +54,11 @@ class OrderReceiptTest {
 
     @Test
     public void should_print_product_tails_information() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("巧克力", 21.50, 2));
-            add(new LineItem("小白菜", 10.00, 1));
+        List<Commodity> commodities = new ArrayList<Commodity>() {{
+            add(new Commodity("巧克力", 21.50, 2));
+            add(new Commodity("小白菜", 10.00, 1));
         }};
-        OrderReceipt receipt = new OrderReceipt(new Order(lineItems, LocalDate.now()));
+        OrderReceipt receipt = new OrderReceipt(new Order(commodities, LocalDate.now()));
 
         String output = receipt.printReceipt();
 
@@ -68,12 +68,12 @@ class OrderReceiptTest {
 
     @Test
     public void should_print_discount_information_on_Wednesday() {
-        List<LineItem> lineItems = new ArrayList<LineItem>() {{
-            add(new LineItem("巧克力", 21.50, 2));
-            add(new LineItem("小白菜", 10.00, 1));
+        List<Commodity> commodities = new ArrayList<Commodity>() {{
+            add(new Commodity("巧克力", 21.50, 2));
+            add(new Commodity("小白菜", 10.00, 1));
         }};
 
-        OrderReceipt receipt = new OrderReceipt(new Order( lineItems, LocalDate.now().with(DayOfWeek.WEDNESDAY)));
+        OrderReceipt receipt = new OrderReceipt(new Order( commodities, LocalDate.now().with(DayOfWeek.WEDNESDAY)));
 
         String output = receipt.printReceipt();
 
@@ -81,5 +81,4 @@ class OrderReceiptTest {
         assertThat(output, containsString("折扣：1.17\n"));
         assertThat(output, containsString("总价：57.13\n"));
     }
-
 }

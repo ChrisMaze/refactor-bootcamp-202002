@@ -21,15 +21,11 @@ public class OrderReceipt {
         this.order = order;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
     public String printReceipt() {
 
         return generateReceiptHeader() +
                 generateOrderDate() +
-                generateLineItems() +
+                generateCommodities() +
                 generateReceiptFooter();
     }
 
@@ -60,10 +56,15 @@ public class OrderReceipt {
         return order.getDate().format(DATE_FORMATTER);
     }
 
-    private String generateLineItems() {
+    private String generateCommodities() {
         StringBuilder lineItemsDetails = new StringBuilder();
-        order.getLineItems().forEach(lineItem -> {
-            lineItemsDetails.append(String.format(LINE_ITEM_FORMATTER, lineItem.getDescription(), lineItem.getPrice(), lineItem.getQuantity(), lineItem.totalAmount(), NEW_LINE));
+        order.getCommodities().forEach(commodity -> {
+            lineItemsDetails.append(String.format(LINE_ITEM_FORMATTER,
+                    commodity.getDescription(),
+                    commodity.getPrice(),
+                    commodity.getQuantity(),
+                    commodity.totalAmount(),
+                    NEW_LINE));
         });
         return lineItemsDetails.toString();
     }

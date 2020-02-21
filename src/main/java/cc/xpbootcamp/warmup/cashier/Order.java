@@ -7,14 +7,14 @@ import java.util.List;
 public class Order {
     private static final double DISCOUNT_RATE = 0.02;
 
-    private List<LineItem> lineItems;
+    private List<Commodity> commodities;
     private LocalDate date;
     private double totalAmount;
     private double totalTax;
     private double discount;
 
-    public Order(List<LineItem> lineItems, LocalDate date) {
-        this.lineItems = lineItems;
+    public Order(List<Commodity> commodities, LocalDate date) {
+        this.commodities = commodities;
         this.date = date;
         calculateTotalAmount();
         calculateTotalTax();
@@ -24,8 +24,8 @@ public class Order {
         return date;
     }
 
-    public List<LineItem> getLineItems() {
-        return lineItems;
+    public List<Commodity> getCommodities() {
+        return commodities;
     }
 
     public double getTotalAmount() {
@@ -41,15 +41,15 @@ public class Order {
     }
 
     public void calculateTotalAmount() {
-        this.lineItems.forEach(lineItem -> {
-            totalAmount += lineItem.totalAmount() + lineItem.totalTax();
+        this.commodities.forEach(commodity -> {
+            totalAmount += commodity.totalAmount() + commodity.totalTax();
         });
         if (isNeedDiscount()) makeDiscount();
     }
 
     public void calculateTotalTax() {
-        this.lineItems.forEach(lineItem -> {
-            totalTax += lineItem.totalTax();
+        this.commodities.forEach(commodity -> {
+            totalTax += commodity.totalTax();
         });
     }
 
