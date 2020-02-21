@@ -29,25 +29,6 @@ public class OrderReceipt {
                 generateReceiptFooter();
     }
 
-    private String generateReceiptFooter() {
-        return DIVIDING_LINE
-                + generateTotalTax()
-                + generateDiscount()
-                + generateTotalAmount();
-    }
-
-    private String generateTotalTax() {
-        return String.format(FOOTER_FORMATTER, TOTAL_TAX, order.getTotalTax(), NEW_LINE);
-    }
-
-    private String generateDiscount() {
-        return order.getDiscount() == 0 ? "" : (String.format(FOOTER_FORMATTER, DISCOUNT, order.getDiscount(), NEW_LINE));
-    }
-
-    private String generateTotalAmount() {
-        return String.format(FOOTER_FORMATTER, TOTAL_AMOUNT, order.getTotalAmount(), NEW_LINE);
-    }
-
     private String generateReceiptHeader() {
         return RECEIPT_HEADER;
     }
@@ -67,5 +48,24 @@ public class OrderReceipt {
                     NEW_LINE));
         });
         return lineItemsDetails.toString();
+    }
+
+    private String generateReceiptFooter() {
+        return DIVIDING_LINE
+                + generateTotalTax()
+                + generateDiscount()
+                + generateTotalAmount();
+    }
+
+    private String generateTotalTax() {
+        return String.format(FOOTER_FORMATTER, TOTAL_TAX, order.getTotalTax(), NEW_LINE);
+    }
+
+    private String generateDiscount() {
+        return order.getDiscount() == 0 ? "" : (String.format(FOOTER_FORMATTER, DISCOUNT, order.getDiscount(), NEW_LINE));
+    }
+
+    private String generateTotalAmount() {
+        return String.format(FOOTER_FORMATTER, TOTAL_AMOUNT, order.getTotalAmount(), NEW_LINE);
     }
 }

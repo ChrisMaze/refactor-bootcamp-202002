@@ -40,6 +40,12 @@ public class Order {
         return discount;
     }
 
+    public void calculateTotalTax() {
+        this.commodities.forEach(commodity -> {
+            totalTax += commodity.totalTax();
+        });
+    }
+
     public void calculateTotalAmount() {
         this.commodities.forEach(commodity -> {
             totalAmount += commodity.totalAmount() + commodity.totalTax();
@@ -47,19 +53,13 @@ public class Order {
         if (isNeedDiscount()) makeDiscount();
     }
 
-    public void calculateTotalTax() {
-        this.commodities.forEach(commodity -> {
-            totalTax += commodity.totalTax();
-        });
+    private boolean isNeedDiscount() {
+        return date.getDayOfWeek().equals(DayOfWeek.WEDNESDAY);
     }
 
     private void makeDiscount() {
         discount = totalAmount * DISCOUNT_RATE;
         totalAmount -= discount;
-    }
-
-    private boolean isNeedDiscount() {
-        return date.getDayOfWeek().equals(DayOfWeek.WEDNESDAY);
     }
 
 }
