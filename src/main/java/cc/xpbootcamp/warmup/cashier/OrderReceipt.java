@@ -1,53 +1,69 @@
 package cc.xpbootcamp.warmup.cashier;
 
-import java.text.DecimalFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
-/**
- * OrderReceipt prints the details of order including customer name, address, description, quantity,
- * price and amount. It also calculates the sales tax @ 10% and prints as part
- * of order. It computes the total order amount (amount of individual lineItems +
- * total sales tax) and prints it.
- */
 public class OrderReceipt {
+    public static final String RECEIPT_HEADER = "===== 老王超市，值得信赖 ======";
+    public static final char NEW_LINE = '\n';
 
-    public static final double taxRate = 0.10;
-    public static final double discountRate = 0.02;
-
-    private double totalSalesTax = 0d;
-    private double totalAmount = 0d;
-    private double totalDiscount = 0d;
     private Order order;
 
     public OrderReceipt(Order order) {
         this.order = order;
     }
 
-    public Order getOrder() { return order; }
-
-    public double getTotalSalesTax() { return totalSalesTax; }
-
-    public double getTotalAmount() { return totalAmount; }
-
-    public double getTotalDiscount() { return totalDiscount; }
-
-    public void calculate() {
-        calculateTotalAmount();
-        calculateDiscount();
+    public Order getOrder() {
+        return order;
     }
 
-    private void calculateTotalAmount() {
+    public String printReceipt() {
+
+        StringBuilder receipt = new StringBuilder();
+
+        receipt.append(generateReceiptHeader());
+
+        receipt.append(generateOrderDate());
+
+        receipt.append(generateLineItems());
+
+        receipt.append(generateReceiptFooter());
+
+        return receipt.toString();
+    }
+
+    private String generateReceiptFooter() {
+        return "----------------------------" + NEW_LINE
+                + generateTotalTax()
+                + generateDiscount()
+                + generateTotalAmount();
+    }
+
+    private String generateTotalTax() {
+        return String.format("%s：%.2f%s", "税额", order.getTotalTax(), NEW_LINE);
+    }
+
+    private String generateDiscount() {
+        return order.getDiscount() == 0 ? "" : (String.format("%s：%.2f%s", "折扣", order.getDiscount(), NEW_LINE));
+    }
+
+    private String generateTotalAmount() {
+        return String.format("%s：%.2f", "总价", order.getTotalAmount());
+    }
+
+    private String generateReceiptHeader() {
+        return RECEIPT_HEADER + NEW_LINE + NEW_LINE;
+    }
+
+    private String generateOrderDate() {
+        return order.getDate().format(DateTimeFormatter.ofPattern("yyyy年M月dd日,E\n", Locale.CHINA));
+    }
+
+    private String generateLineItems() {
+        StringBuilder lineItemsDetails = new StringBuilder();
         order.getLineItems().forEach(lineItem -> {
-            double amount = lineItem.totalAmount();
-            double salesTax = amount * taxRate;
-            this.totalSalesTax += salesTax;
-            this.totalAmount += amount + salesTax;
+            lineItemsDetails.append(String.format("%s，%.2f x %d，%.2f\n", lineItem.getDescription(), lineItem.getPrice(), lineItem.getQuantity(), lineItem.totalAmount()));
         });
-    }
-
-    private void calculateDiscount() {
-        if (order.getDate().contains("星期三")) {
-            this.totalDiscount = totalAmount * discountRate;
-            this.totalAmount -= this.totalDiscount;
-        }
+        return lineItemsDetails.toString();
     }
 }

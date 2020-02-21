@@ -1,5 +1,7 @@
 package cc.xpbootcamp.warmup.cashier;
 
+import static cc.xpbootcamp.warmup.cashier.CalculationConstant.TAX_RATE;
+
 public class LineItem {
     private String description;
     private double price;
@@ -23,7 +25,11 @@ public class LineItem {
         return quantity;
     }
 
-    double totalAmount() {
+    public double totalAmount() {
         return price * quantity;
+    }
+
+    public double totalTax() {
+        return totalAmount() * TAX_RATE;
     }
 }
