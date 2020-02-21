@@ -32,9 +32,7 @@ public class OrderReceiptPrinter {
     }
 
     private void printReceiptHeaders(StringBuilder output) {
-        output.append(receiptHeader).append(newLine).append(newLine)
-                .append(this.order.getCustomerName())
-                .append(this.order.getCustomerAddress());
+        output.append(receiptHeader).append(newLine).append(newLine);
     }
 
     private void printOrderDate(StringBuilder output) {

@@ -10,18 +10,6 @@ import static org.hamcrest.Matchers.containsString;
 
 class OrderReceiptTest {
     @Test
-    void should_print_customer_information_on_order() {
-        Order order = new Order("Mr X", "Chicago, 60601", new ArrayList<LineItem>(),"2020年2月17日，星期一");
-        OrderReceipt receipt = new OrderReceipt(order);
-        OrderReceiptPrinter receiptPrinter = new OrderReceiptPrinter(receipt);
-
-        String output = receiptPrinter.printReceipt();
-
-        assertThat(output, containsString("Mr X"));
-        assertThat(output, containsString("Chicago, 60601"));
-    }
-
-    @Test
     public void should_print_new_head_information_not_on_Wednesday() {
         List<LineItem> lineItems = new ArrayList<LineItem>() {{
             add(new LineItem("巧克力", 21.50, 2));
