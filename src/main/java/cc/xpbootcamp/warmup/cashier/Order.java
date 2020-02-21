@@ -4,9 +4,9 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
-import static cc.xpbootcamp.warmup.cashier.CalculationConstant.DISCOUNT_RATE;
-
 public class Order {
+    private static final double DISCOUNT_RATE = 0.02;
+
     private List<LineItem> lineItems;
     private LocalDate date;
     private double totalAmount;

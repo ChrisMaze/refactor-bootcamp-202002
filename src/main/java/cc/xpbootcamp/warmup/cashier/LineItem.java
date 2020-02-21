@@ -1,8 +1,8 @@
 package cc.xpbootcamp.warmup.cashier;
 
-import static cc.xpbootcamp.warmup.cashier.CalculationConstant.TAX_RATE;
-
 public class LineItem {
+    private static final double TAX_RATE = 0.10;
+
     private String description;
     private double price;
     private int quantity;
